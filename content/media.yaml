@@ -34,3 +34,5 @@ photos:
 videos:
   # - url: https://www.youtube.com/watch?v=XXXXXXXXXXX
   #   title: Name of the song – Live at Somewhere
+  - url: https://www.youtube.com/watch?v=Qbgs8uObUtE&list=RDQbgs8uObUtE&start_radio=1
+    title: Teaser
