@@ -1,6 +1,6 @@
 ---
 # Short sentence shown under the logo at the top of the start page
-tagline: Folk/jazz 
+tagline: Folk/jazz från Malmö
 # Description shown in Google and when the site is shared on social media
 description: Bülows kvartett spelar folkmusik och jazz. Lyssna, se kommande spelningar och boka bandet.
 ---
