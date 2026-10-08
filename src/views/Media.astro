@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import Gallery from '../components/Gallery.astro';
+import Embed from '../components/Embed.astro';
+import { getPage, getMedia } from '../lib/content';
+import { t, type Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const s = t[lang];
+const page = getPage(lang, 'media');
+const { photos, videos } = getMedia();
+---
+
+<Base lang={lang} current="media" title={page.title ?? s.nav.media}>
+  <div class="container page-head">
+    <h1>{page.title ?? s.nav.media}</h1>
+    <div class="lead prose" set:html={page.html} />
+  </div>
+
+  {
+    videos.length > 0 && (
+      <section class="section media-videos">
+        <div class="container">
+          <h2>{s.videos}</h2>
+          <div class="videos">
+            {videos.map((v) => (
+              <Embed provider="youtube" url={v.url.url} embedUrl={v.url.embedUrl} title={v.title} lang={lang} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  {
+    photos.length > 0 && (
+      <section class="section media-photos">
+        <div class="container">
+          <h2>{s.photos}</h2>
+          <Gallery photos={photos} lang={lang} />
+        </div>
+      </section>
+    )
+  }
+</Base>
+
+<style>
+  .media-videos,
+  .media-photos {
+    padding-top: 1.5rem;
+  }
+  .videos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 28rem), 1fr));
+    gap: 1.5rem;
+  }
+</style>

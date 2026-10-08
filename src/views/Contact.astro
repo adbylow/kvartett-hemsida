@@ -1,0 +1,85 @@
+---
+import Base from '../layouts/Base.astro';
+import Email from '../components/Email.astro';
+import SocialLinks from '../components/SocialLinks.astro';
+import { getPage, getSettings } from '../lib/content';
+import { t, type Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const s = t[lang];
+const settings = getSettings();
+const page = getPage(lang, 'contact');
+const hasSocial = Object.values(settings.social).some(Boolean);
+---
+
+<Base lang={lang} current="contact" title={page.title ?? s.nav.contact}>
+  <div class="container page-head">
+    <h1>{page.title ?? s.nav.contact}</h1>
+  </div>
+
+  <section class="section contact">
+    <div class="container contact__grid">
+      <div class="lead prose" set:html={page.html} />
+      <div class="contact__card">
+        <p class="eyebrow">{s.emailUs}</p>
+        <Email email={settings.email} lang={lang} large />
+        {
+          hasSocial && (
+            <>
+              <p class="eyebrow contact__follow">{s.followUs}</p>
+              <SocialLinks social={settings.social} />
+            </>
+          )
+        }
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact {
+    padding-top: 1rem;
+  }
+  .contact__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+  .contact__card {
+    background: var(--cream);
+    color: var(--ink);
+    border-radius: var(--radius);
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+  }
+  .contact__card .eyebrow {
+    color: var(--green-soft);
+  }
+  .contact__card :global(a:hover) {
+    color: var(--green-soft);
+  }
+  .contact__card :global(.button--ghost) {
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .contact__card :global(.button--ghost:hover) {
+    background: var(--green);
+    color: var(--cream);
+  }
+  .contact__card :global(.social a:hover) {
+    background: var(--green);
+    border-color: var(--green);
+    color: var(--cream);
+  }
+  .contact__follow {
+    margin-top: 2rem;
+  }
+  @media (max-width: 47.99rem) {
+    .contact__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

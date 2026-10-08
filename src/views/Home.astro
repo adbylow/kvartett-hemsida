@@ -1,0 +1,261 @@
+---
+import { Image, getImage } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Embed from '../components/Embed.astro';
+import GigList from '../components/GigList.astro';
+import { getPage, getSettings, getMedia } from '../lib/content';
+import { getGigs } from '../lib/bandsintown';
+import { image } from '../lib/images';
+import { t, routes, type Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const s = t[lang];
+const settings = getSettings();
+const page = getPage(lang, 'home');
+const gigs = await getGigs(settings.bandsintown_artist);
+// Skip the hero photo. The phone hero photo goes last, since phones only show the first two.
+const strip = getMedia()
+  .photos.filter((p) => p.image !== settings.hero_image)
+  .sort((a, b) => Number(a.image === settings.hero_image_mobile) - Number(b.image === settings.hero_image_mobile))
+  .slice(0, 3);
+const heroMobile = settings.hero_image_mobile
+  ? await getImage({ src: image(settings.hero_image_mobile), widths: [480, 720, 960, 1280], format: 'webp' })
+  : undefined;
+const logo = await getImage({ src: image('logo-white.png'), width: 1600, format: 'webp' });
+---
+
+<Base lang={lang} current="home" description={page.description}>
+  <section class="hero">
+    <picture class="hero__media">
+      {
+        heroMobile && (
+          <source
+            media="(max-width: 47.99rem)"
+            srcset={heroMobile.srcSet.attribute}
+            sizes="100vw"
+            width={heroMobile.attributes.width}
+            height={heroMobile.attributes.height}
+            type="image/webp"
+          />
+        )
+      }
+      <Image class="hero__img" src={image(settings.hero_image)} alt="" layout="full-width" priority />
+    </picture>
+    <div class="hero__content container">
+      <h1>
+        <span class="visually-hidden">Bülows kvartett</span>
+        <span class="hero__logo" style={`--logo: url(${logo.src})`} aria-hidden="true"></span>
+      </h1>
+      {page.tagline && <p class="hero__tagline">{page.tagline}</p>}
+      <div class="hero__actions">
+        {settings.spotify.length > 0 && <a class="button" href="#listen">{s.listen}</a>}
+        <a class="button button--ghost" href={routes[lang].tour}>{s.nav.tour}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--light">
+    <div class="container intro">
+      <div class="lead prose" set:html={page.html} />
+      <a class="arrow-link" href={routes[lang].about}>{s.readMore}</a>
+    </div>
+  </section>
+
+  {
+    settings.spotify.length > 0 && (
+      <section id="listen" class="section">
+        <div class="container">
+          <h2>{s.listen}</h2>
+          <div class:list={['players', { 'players--many': settings.spotify.length > 1 }]}>
+            {settings.spotify.map((sp) => (
+              <Embed provider="spotify" url={sp.url} embedUrl={sp.embedUrl} type={sp.type} lang={lang} />
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section section--deep">
+    <div class="container">
+      <div class="section-head">
+        <h2>{s.nextGigs}</h2>
+        <a class="arrow-link" href={routes[lang].tour}>{s.allGigs}</a>
+      </div>
+      {
+        gigs.upcoming.length > 0 ? (
+          <GigList gigs={gigs.upcoming.slice(0, 3)} lang={lang} />
+        ) : (
+          <p class="no-gigs">{gigs.status === 'error' ? s.gigsError : s.noGigs}</p>
+        )
+      }
+    </div>
+  </section>
+
+  {
+    strip.length > 0 && (
+      <section class="strip" aria-label={s.photos}>
+        {strip.map((p) => (
+          <a href={routes[lang].media}>
+            <Image
+              src={image(p.image)}
+              alt={(lang === 'en' && p.description_en) || p.description_sv}
+              widths={[400, 700, 1000]}
+              sizes="(max-width: 40rem) 100vw, 33vw"
+              loading="lazy"
+            />
+          </a>
+        ))}
+        <a class="strip__more button" href={routes[lang].media}>{s.morePhotos}</a>
+      </section>
+    )
+  }
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: min(92svh, 56rem);
+    display: grid;
+    align-items: end;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+  .hero :global(.hero__img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+  }
+  .hero__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(to top, var(--green) 0%, rgb(42 57 39 / 0.85) 18%, rgb(42 57 39 / 0) 55%),
+      linear-gradient(to bottom, rgb(29 40 27 / 0.45), transparent 25%);
+  }
+  .hero__content {
+    padding-top: 8rem;
+    padding-bottom: clamp(2.5rem, 7vw, 5rem);
+  }
+  .hero h1 {
+    margin: 0 0 1rem;
+  }
+  .hero__logo {
+    display: block;
+    width: min(100%, 52rem);
+    aspect-ratio: 3148 / 488;
+    background: var(--pink);
+    -webkit-mask: var(--logo) center / contain no-repeat;
+    mask: var(--logo) center / contain no-repeat;
+    filter: drop-shadow(0 4px 24px rgb(0 0 0 / 0.35));
+  }
+  .hero__tagline {
+    font-family: var(--font-display);
+    font-stretch: 85%;
+    font-weight: 700;
+    font-size: clamp(1.3rem, 3vw, 2rem);
+    line-height: 1.2;
+    max-width: 30em;
+    margin-bottom: 1.75rem;
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  /* Phones: show the whole photo above the text instead of cropping it,
+     so every band member stays in the picture. */
+  @media (max-width: 47.99rem) {
+    .hero {
+      display: block;
+      min-height: 0;
+      background: var(--green);
+    }
+    .hero__media {
+      position: relative;
+      display: block;
+    }
+    .hero :global(.hero__img) {
+      height: auto;
+    }
+    .hero__media::after {
+      background:
+        linear-gradient(to top, var(--green) 0%, rgb(42 57 39 / 0.85) 8%, rgb(42 57 39 / 0) 28%),
+        linear-gradient(to bottom, rgb(29 40 27 / 0.45), transparent 20%);
+    }
+    .hero__content {
+      position: relative;
+      margin-top: -3rem;
+      padding-top: 0;
+    }
+  }
+
+  .intro {
+    display: grid;
+    gap: 1.25rem;
+    justify-items: start;
+  }
+  .intro .lead :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .players {
+    display: grid;
+    gap: 1.25rem;
+  }
+  @media (min-width: 64rem) {
+    .players--many {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .no-gigs {
+    font-size: 1.15rem;
+    color: var(--cream-dim);
+  }
+
+  .strip {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .strip a:not(.button) {
+    display: block;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+  }
+  .strip :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .strip a:hover :global(img) {
+    transform: scale(1.04);
+  }
+  .strip__more {
+    position: absolute;
+    left: 50%;
+    bottom: 1.5rem;
+    translate: -50% 0;
+  }
+  @media (max-width: 40rem) {
+    .strip {
+      grid-template-columns: 1fr 1fr;
+    }
+    .strip a:nth-child(3) {
+      display: none;
+    }
+  }
+</style>

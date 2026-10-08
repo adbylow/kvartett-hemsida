@@ -1,0 +1,281 @@
+@import '@fontsource-variable/bricolage-grotesque/wdth.css';
+@import '@fontsource-variable/dm-sans/wght.css';
+@import '@fontsource-variable/dm-sans/wght-italic.css';
+
+/* ── Design tokens (colours from the band logo) ───────────── */
+:root {
+  --green: #2a3927;
+  --green-deep: #1d281b;
+  --green-soft: #364a33;
+  --green-line: #4b6346;
+  --pink: #ff8daf;
+  --pink-strong: #ff6f9a;
+  --cream: #f6f0e4;
+  --cream-dim: #d9d3c4;
+  --ink: #1f2a1d;
+
+  --font-display: 'Bricolage Grotesque Variable', 'Arial Narrow', system-ui, sans-serif;
+  --font-body: 'DM Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --gutter: clamp(1rem, 4vw, 2.5rem);
+  --max: 72rem;
+  --radius: 14px;
+  --header-h: 4.25rem;
+
+  color-scheme: dark;
+}
+
+/* ── Base ─────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-padding-top: calc(var(--header-h) + 1rem);
+}
+
+body {
+  margin: 0;
+  background: var(--green);
+  color: var(--cream);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+img,
+iframe {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-stretch: 85%;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.5em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2.6rem, 7vw, 5rem);
+}
+h2 {
+  font-size: clamp(1.9rem, 4.5vw, 3rem);
+}
+h3 {
+  font-size: 1.35rem;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+a {
+  color: inherit;
+  text-decoration-color: var(--pink);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+a:hover {
+  color: var(--pink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--pink);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  background: var(--pink);
+  color: var(--ink);
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ── Layout helpers ───────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: calc(var(--max) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: clamp(3.5rem, 9vw, 7rem);
+}
+
+.section--light {
+  background: var(--cream);
+  color: var(--ink);
+  color-scheme: light;
+}
+.section--light a:hover {
+  color: var(--green-soft);
+}
+.section--light :focus-visible {
+  outline-color: var(--green);
+}
+
+.section--deep {
+  background: var(--green-deep);
+}
+
+.page-head {
+  padding-top: clamp(2.5rem, 7vw, 5rem);
+  padding-bottom: clamp(1rem, 3vw, 2rem);
+}
+.page-head h1 {
+  color: var(--pink);
+}
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-stretch: 85%;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.85rem;
+  color: var(--pink);
+  margin-bottom: 0.75rem;
+}
+.section--light .eyebrow {
+  color: var(--green-soft);
+}
+
+.lead {
+  font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+  line-height: 1.55;
+  max-width: 40em;
+}
+
+.prose {
+  max-width: 42em;
+}
+.prose h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin-top: 1.6em;
+}
+.prose h3 {
+  margin-top: 1.4em;
+}
+.prose ul,
+.prose ol {
+  padding-left: 1.25em;
+}
+.prose li {
+  margin-bottom: 0.35em;
+}
+
+.section-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 2rem;
+}
+.section-head h2 {
+  margin: 0;
+}
+
+/* ── Buttons ──────────────────────────────────────────────── */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding: 0.75em 1.35em;
+  border-radius: 999px;
+  border: 2px solid var(--pink);
+  background: var(--pink);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    color 0.15s,
+    transform 0.15s;
+}
+.button:hover {
+  background: var(--pink-strong);
+  border-color: var(--pink-strong);
+  color: var(--ink);
+}
+.button:active {
+  transform: translateY(1px);
+}
+.button--ghost {
+  background: transparent;
+  color: var(--pink);
+}
+.button--ghost:hover {
+  background: var(--pink);
+  color: var(--ink);
+}
+.section--light .button--ghost {
+  border-color: var(--green);
+  color: var(--green);
+}
+.section--light .button--ghost:hover {
+  background: var(--green);
+  color: var(--cream);
+}
+.button--small {
+  font-size: 0.9rem;
+  padding: 0.5em 1em;
+}
+
+.arrow-link {
+  font-weight: 600;
+  white-space: nowrap;
+}
+.arrow-link::after {
+  content: ' →';
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}

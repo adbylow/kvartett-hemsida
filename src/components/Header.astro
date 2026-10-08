@@ -1,0 +1,240 @@
+---
+import { getImage } from 'astro:assets';
+import { image } from '../lib/images';
+import { t, routes, navOrder, otherLang, type Lang, type RouteKey } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  current?: RouteKey;
+}
+const { lang, current } = Astro.props;
+const s = t[lang];
+const other = otherLang(lang);
+const logo = await getImage({ src: image('logo-white.png'), width: 520, format: 'webp' });
+---
+
+<header class="header" data-header>
+  <div class="header__inner container">
+    <a class="header__logo" href={routes[lang].home} aria-label={`Bülows kvartett – ${s.nav.home}`}>
+      <img src={logo.src} width={logo.attributes.width} height={logo.attributes.height} alt="" />
+    </a>
+
+    <button type="button" class="header__toggle" aria-expanded="false" aria-controls="site-nav" data-menu-toggle>
+      <span class="header__toggle-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">{s.menu}</span>
+    </button>
+
+    <nav id="site-nav" class="nav" aria-label={s.menu}>
+      <ul class="nav__list">
+        {
+          navOrder.map((key) => (
+            <li>
+              <a href={routes[lang][key]} aria-current={key === current ? 'page' : undefined}>
+                {s.nav[key]}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <a class="nav__lang" href={routes[other][current ?? 'home']} hreflang={other} lang={other}>
+        <span aria-hidden="true">{s.otherLangShort}</span>
+        <span class="visually-hidden">{s.otherLang}</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgb(42 57 39 / 0.92);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgb(255 255 255 / 0.06);
+  }
+  .header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    height: var(--header-h);
+  }
+  .header__logo img {
+    height: clamp(22px, 3.2vw, 30px);
+    width: auto;
+  }
+  .header__logo:hover img {
+    opacity: 0.85;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 3vw, 2.25rem);
+  }
+  .nav__list {
+    display: flex;
+    gap: clamp(1rem, 2.5vw, 2rem);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .nav__list a {
+    font-family: var(--font-display);
+    font-stretch: 85%;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    padding-block: 0.4rem;
+    border-bottom: 2.5px solid transparent;
+  }
+  .nav__list a:hover {
+    color: var(--pink);
+  }
+  .nav__list a[aria-current='page'] {
+    color: var(--pink);
+    border-bottom-color: var(--pink);
+  }
+  .nav__lang {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    border: 1.5px solid currentColor;
+    border-radius: 999px;
+    padding: 0.2rem 0.65rem;
+  }
+  .nav__lang:hover {
+    background: var(--pink);
+    border-color: var(--pink);
+    color: var(--ink);
+  }
+
+  .header__toggle {
+    display: none;
+  }
+
+  /* Small screens: menu behind a button */
+  @media (max-width: 47.99rem) {
+    .header__toggle {
+      display: grid;
+      place-items: center;
+      width: 2.75rem;
+      height: 2.75rem;
+      margin-right: -0.5rem;
+      background: none;
+      border: 0;
+      color: inherit;
+      cursor: pointer;
+    }
+    .header__toggle-icon,
+    .header__toggle-icon::before,
+    .header__toggle-icon::after {
+      display: block;
+      width: 24px;
+      height: 2.5px;
+      border-radius: 2px;
+      background: currentColor;
+      transition:
+        transform 0.2s,
+        opacity 0.2s;
+    }
+    .header__toggle-icon {
+      position: relative;
+    }
+    .header__toggle-icon::before,
+    .header__toggle-icon::after {
+      content: '';
+      position: absolute;
+      left: 0;
+    }
+    .header__toggle-icon::before {
+      top: -7px;
+    }
+    .header__toggle-icon::after {
+      top: 7px;
+    }
+    [aria-expanded='true'] .header__toggle-icon {
+      background: transparent;
+    }
+    [aria-expanded='true'] .header__toggle-icon::before {
+      transform: translateY(7px) rotate(45deg);
+    }
+    [aria-expanded='true'] .header__toggle-icon::after {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .nav {
+      position: fixed;
+      inset: var(--header-h) 0 auto 0;
+      height: calc(100dvh - var(--header-h));
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2rem;
+      padding: 2rem var(--gutter);
+      background: var(--green);
+      display: none;
+      overflow-y: auto;
+    }
+    .header[data-open] .nav {
+      display: flex;
+    }
+    .nav__list {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .nav__list a {
+      font-size: 2.25rem;
+      display: inline-block;
+    }
+    .nav__lang {
+      font-size: 1rem;
+      padding: 0.4rem 1rem;
+    }
+    /* Without JavaScript the menu is simply shown under the header */
+    :global(html:not(.js)) .header__toggle {
+      display: none;
+    }
+    :global(html:not(.js)) .header__inner {
+      height: auto;
+      flex-wrap: wrap;
+      padding-block: 1rem;
+    }
+    :global(html:not(.js)) .nav {
+      display: flex;
+      position: static;
+      height: auto;
+      padding: 0;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+    :global(html:not(.js)) .nav__list {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    :global(html:not(.js)) .nav__list a {
+      font-size: 1.1rem;
+    }
+  }
+</style>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]')!;
+  const toggle = header.querySelector<HTMLButtonElement>('[data-menu-toggle]')!;
+  const setOpen = (open: boolean) => {
+    toggle.setAttribute('aria-expanded', String(open));
+    header.toggleAttribute('data-open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && header.hasAttribute('data-open')) {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+  matchMedia('(min-width: 48rem)').addEventListener('change', (e) => e.matches && setOpen(false));
+</script>

@@ -1,0 +1,142 @@
+---
+import { formatGigDate, type Gig } from '../lib/bandsintown';
+import { t, type Lang } from '../lib/i18n';
+
+interface Props {
+  gigs: Gig[];
+  lang: Lang;
+  past?: boolean;
+}
+const { gigs, lang, past = false } = Astro.props;
+const s = t[lang];
+const region = (g: Gig) => [g.city, g.country && g.country !== 'Sweden' && g.country !== 'Sverige' ? g.country : g.region].filter(Boolean).join(', ');
+---
+
+<ol class:list={['gigs', { 'gigs--past': past }]}>
+  {
+    gigs.map((g) => {
+      const d = formatGigDate(g.datetime, s.locale);
+      return (
+        <li class="gig">
+          <time class="gig__date" datetime={g.datetime}>
+            <span class="gig__day">{d.day}</span>
+            <span class="gig__month">{d.month}</span>
+            {past && <span class="gig__year">{d.year}</span>}
+          </time>
+          <div class="gig__info">
+            <p class="gig__venue">{g.venue || g.title}</p>
+            <p class="gig__place">
+              {region(g)}
+              {!past && (
+                <span class="gig__when">
+                  {' · '}
+                  {d.weekday}
+                  {d.time && ` ${d.time}`}
+                </span>
+              )}
+            </p>
+          </div>
+          {!past && (
+            <div class="gig__actions">
+              {g.soldOut ? (
+                <span class="gig__soldout">{s.soldOut}</span>
+              ) : (
+                g.ticketUrl && (
+                  <a class="button button--small" href={g.ticketUrl} target="_blank" rel="noopener">
+                    {s.tickets}
+                  </a>
+                )
+              )}
+              <a class="gig__more" href={g.url} target="_blank" rel="noopener">
+                {s.moreInfo}
+              </a>
+            </div>
+          )}
+        </li>
+      );
+    })
+  }
+</ol>
+
+<style>
+  .gigs {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1.5px solid var(--green-line);
+  }
+  .gig {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr auto;
+    align-items: center;
+    gap: 0.75rem 1.5rem;
+    padding: 1.1rem 0;
+    border-bottom: 1.5px solid var(--green-line);
+  }
+  .gig__date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+    font-family: var(--font-display);
+    font-stretch: 85%;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  .gig__day {
+    font-size: 2.2rem;
+    color: var(--pink);
+  }
+  .gig__month,
+  .gig__year {
+    font-size: 0.9rem;
+    letter-spacing: 0.06em;
+  }
+  .gig__venue {
+    font-weight: 700;
+    font-size: 1.15rem;
+    margin: 0;
+  }
+  .gig__place {
+    margin: 0;
+    color: var(--cream-dim);
+  }
+  .gig__when {
+    text-transform: capitalize;
+  }
+  .gig__actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .gig__more {
+    font-size: 0.9rem;
+  }
+  .gig__soldout {
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    padding: 0.3em 0.8em;
+    border: 1.5px solid var(--cream-dim);
+    border-radius: 999px;
+    color: var(--cream-dim);
+  }
+  .gigs--past .gig {
+    grid-template-columns: 4.5rem 1fr;
+    padding: 0.7rem 0;
+  }
+  .gigs--past .gig__day {
+    font-size: 1.6rem;
+    color: inherit;
+  }
+
+  @media (max-width: 40rem) {
+    .gig {
+      grid-template-columns: 3.5rem 1fr;
+    }
+    .gig__actions {
+      grid-column: 2;
+    }
+  }
+</style>

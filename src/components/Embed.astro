@@ -1,0 +1,187 @@
+---
+// A Spotify or YouTube player that only loads after the visitor clicks (or has allowed cookies).
+import { getImage } from 'astro:assets';
+import { getEmbedInfo } from '../lib/oembed';
+import { t, type Lang } from '../lib/i18n';
+
+interface Props {
+  provider: 'spotify' | 'youtube';
+  url: string;
+  embedUrl: string;
+  /** Spotify only: tracks use the compact player. */
+  type?: string;
+  title?: string;
+  lang: Lang;
+}
+
+const { provider, url, embedUrl, type, lang } = Astro.props;
+const s = t[lang];
+const info = await getEmbedInfo(provider, url);
+const title = Astro.props.title || info.title || (provider === 'spotify' ? 'Spotify' : 'YouTube');
+
+let thumb: string | undefined;
+if (info.thumbnail) {
+  try {
+    const img = await getImage({
+      src: info.thumbnail,
+      inferSize: true,
+      width: provider === 'spotify' ? 320 : 960,
+      format: 'webp',
+    });
+    thumb = img.src;
+  } catch {
+    // No cover image – the player still works.
+  }
+}
+
+const compact = provider === 'spotify' && (type === 'track' || type === 'episode');
+const src =
+  provider === 'spotify'
+    ? `${embedUrl}?utm_source=generator&theme=0`
+    : `${embedUrl}?rel=0`;
+const allow =
+  provider === 'spotify'
+    ? 'autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture'
+    : 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+---
+
+<div
+  class:list={['embed', `embed--${provider}`, { 'embed--compact': compact }]}
+  data-embed
+  data-src={src}
+  data-title={title}
+  data-allow={allow}
+>
+  <div class="embed__placeholder">
+    {thumb && <img class="embed__thumb" src={thumb} alt="" loading="lazy" decoding="async" />}
+    <div class="embed__body">
+      <p class="embed__provider">{provider === 'spotify' ? 'Spotify' : 'YouTube'}</p>
+      <p class="embed__title">{title}</p>
+      <p class="embed__note">{provider === 'spotify' ? s.embed.spotify : s.embed.youtube}</p>
+      <div class="embed__actions">
+        <button type="button" class="button button--small" data-embed-load>
+          <svg aria-hidden="true" width="14" height="14" viewBox="0 0 14 14"><path d="M3 1.5v11l9-5.5z" fill="currentColor"></path></svg>
+          {provider === 'spotify' ? s.embed.load : s.embed.loadVideo}
+        </button>
+        <a class="embed__open" href={url} target="_blank" rel="noopener">
+          {s.embed.openIn} {provider === 'spotify' ? 'Spotify' : 'YouTube'}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .embed {
+    --h: 352px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--green-deep);
+    color: var(--cream);
+    min-height: var(--h);
+    display: flex;
+  }
+  .embed--compact {
+    --h: 152px;
+  }
+  .embed--youtube {
+    aspect-ratio: 16 / 9;
+    min-height: 0;
+  }
+  .embed[data-loaded] {
+    min-height: 0;
+  }
+  .embed :global(iframe) {
+    width: 100%;
+    height: var(--h);
+    border: 0;
+  }
+  .embed--youtube :global(iframe) {
+    height: 100%;
+  }
+
+  .embed__placeholder {
+    position: relative;
+    display: flex;
+    gap: 1.25rem;
+    align-items: center;
+    width: 100%;
+    padding: clamp(1rem, 3vw, 1.75rem);
+    background: linear-gradient(135deg, var(--green-soft), var(--green-deep));
+  }
+  .embed--spotify .embed__thumb {
+    width: clamp(96px, 30%, 220px);
+    aspect-ratio: 1;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgb(0 0 0 / 0.35);
+    flex-shrink: 0;
+  }
+  .embed--compact .embed__thumb {
+    width: 104px;
+  }
+  .embed--youtube .embed__thumb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.45);
+  }
+  .embed--youtube .embed__body {
+    position: relative;
+    align-self: flex-end;
+  }
+
+  .embed__body {
+    min-width: 0;
+  }
+  .embed__provider {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--pink);
+    margin: 0 0 0.25rem;
+  }
+  .embed__title {
+    font-family: var(--font-display);
+    font-stretch: 85%;
+    font-weight: 800;
+    font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+    line-height: 1.1;
+    margin: 0 0 0.5rem;
+  }
+  .embed__note {
+    font-size: 0.875rem;
+    color: var(--cream-dim);
+    margin: 0 0 1rem;
+    max-width: 34em;
+  }
+  .embed--compact .embed__note {
+    display: none;
+  }
+  .embed__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+  }
+  .embed__open {
+    font-size: 0.9rem;
+  }
+
+  @media (max-width: 30rem) {
+    .embed--spotify .embed__placeholder {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .embed--spotify:not(.embed--compact) .embed__thumb {
+      width: 112px;
+    }
+    .embed--youtube:not([data-loaded]) {
+      aspect-ratio: auto;
+      min-height: 15rem;
+    }
+  }
+</style>

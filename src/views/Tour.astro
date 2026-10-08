@@ -1,0 +1,107 @@
+---
+import Base from '../layouts/Base.astro';
+import GigList from '../components/GigList.astro';
+import { getPage, getSettings } from '../lib/content';
+import { getGigs } from '../lib/bandsintown';
+import { t, type Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const s = t[lang];
+const settings = getSettings();
+const page = getPage(lang, 'tour');
+const gigs = await getGigs(settings.bandsintown_artist);
+
+// Lets Google show the concerts directly in search results.
+const jsonLd = gigs.upcoming.map((g) => ({
+  '@context': 'https://schema.org',
+  '@type': 'MusicEvent',
+  name: g.title || `Bülows kvartett – ${g.venue}`,
+  startDate: g.datetime,
+  url: g.url,
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  location: {
+    '@type': 'Place',
+    name: g.venue,
+    address: { '@type': 'PostalAddress', addressLocality: g.city, addressRegion: g.region, addressCountry: g.country },
+  },
+  performer: { '@type': 'MusicGroup', name: 'Bülows kvartett' },
+  ...(g.ticketUrl && { offers: { '@type': 'Offer', url: g.ticketUrl } }),
+}));
+---
+
+<Base lang={lang} current="tour" title={page.title ?? s.nav.tour}>
+  {jsonLd.length > 0 && <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+
+  <div class="container page-head">
+    <h1>{page.title ?? s.nav.tour}</h1>
+    <div class="lead prose" set:html={page.html} />
+  </div>
+
+  <section class="section tour">
+    <div class="container">
+      <h2 class="visually-hidden">{s.upcoming}</h2>
+      {
+        gigs.upcoming.length > 0 ? (
+          <GigList gigs={gigs.upcoming} lang={lang} />
+        ) : (
+          <p class="no-gigs">{gigs.status === 'error' ? s.gigsError : s.noGigs}</p>
+        )
+      }
+
+      {
+        settings.social.bandsintown && (
+          <p class="follow">
+            <a class="button button--ghost" href={settings.social.bandsintown} target="_blank" rel="noopener">
+              {s.followBandsintown}
+            </a>
+          </p>
+        )
+      }
+
+      {
+        gigs.past.length > 0 && (
+          <details class="past">
+            <summary>{s.past}</summary>
+            <GigList gigs={gigs.past} lang={lang} past />
+          </details>
+        )
+      }
+    </div>
+  </section>
+</Base>
+
+<style>
+  .tour {
+    padding-top: 1rem;
+  }
+  .no-gigs {
+    font-size: 1.2rem;
+    color: var(--cream-dim);
+    padding: 2rem 0;
+    border-block: 1.5px solid var(--green-line);
+  }
+  .follow {
+    margin-top: 2rem;
+  }
+  .past {
+    margin-top: 4rem;
+  }
+  .past summary {
+    font-family: var(--font-display);
+    font-stretch: 85%;
+    font-weight: 800;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-bottom: 1rem;
+  }
+  .past summary:hover {
+    color: var(--pink);
+  }
+  .past :global(.gigs) {
+    color: var(--cream-dim);
+  }
+</style>

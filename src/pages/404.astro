@@ -1,0 +1,25 @@
+---
+import Base from '../layouts/Base.astro';
+import { t, routes } from '../lib/i18n';
+const s = t.sv;
+const e = t.en;
+---
+
+<Base lang="sv" title={s.notFound.title}>
+  <div class="container page-head notfound">
+    <h1>{s.notFound.title}</h1>
+    <p class="lead">{s.notFound.text}</p>
+    <p><a class="button" href={routes.sv.home}>{s.notFound.back}</a></p>
+    <p class="lead" lang="en">{e.notFound.text}</p>
+    <p lang="en"><a class="button button--ghost" href={routes.en.home}>{e.notFound.back}</a></p>
+  </div>
+</Base>
+
+<style>
+  .notfound {
+    padding-bottom: 6rem;
+  }
+  .notfound .button {
+    margin-bottom: 2rem;
+  }
+</style>

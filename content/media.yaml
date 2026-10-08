@@ -1,0 +1,36 @@
+# ─────────────────────────────────────────────────────────────
+#  MEDIA PAGE: photos and videos
+#  See README.md → "Add or replace photos" and "Add a YouTube video".
+# ─────────────────────────────────────────────────────────────
+
+# Photos in the gallery, in this order.
+#   image:          file name of a photo in content/images
+#   description_sv: short description of the photo (for people who can't see it)
+#   description_en: same in English (optional – the Swedish text is used if empty)
+#   credit:         photographer (optional)
+photos:
+  - image: band-night-landscape.jpg
+    description_sv: Bandet står tätt tillsammans framför ett träd i mörkret.
+    description_en: The band standing close together in front of a tree at night.
+    credit: ""
+
+  - image: band-forest-landscape.jpg
+    description_sv: Bandet med sina instrument på en gräsmatta i skogen.
+    description_en: The band with their instruments on a lawn in the forest.
+    credit: ""
+
+  - image: band-forest-portrait.jpg
+    description_sv: Bandet spelar bland höga tallar.
+    description_en: The band playing among tall pine trees.
+    credit: ""
+
+  - image: band-night-portrait.jpg
+    description_sv: Bandet i rockar under ett stort träd en kväll.
+    description_en: The band in coats under a large tree in the evening.
+    credit: ""
+
+# YouTube videos, in this order. Copy the link from YouTube ("Share" → "Copy").
+# Remove the "#" at the start of the lines below to use the example.
+videos:
+  # - url: https://www.youtube.com/watch?v=XXXXXXXXXXX
+  #   title: Name of the song – Live at Somewhere

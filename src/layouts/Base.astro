@@ -1,0 +1,72 @@
+---
+import '../styles/global.css';
+import { getImage } from 'astro:assets';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ConsentNotice from '../components/ConsentNotice.astro';
+import { getPage, getSettings } from '../lib/content';
+import { image } from '../lib/images';
+import { t, routes, languages, type Lang, type RouteKey } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+  /** Which page this is – used for the menu and the language switch. Leave out on the 404 page. */
+  current?: RouteKey;
+  title?: string;
+  description?: string;
+}
+
+const { lang, current, title } = Astro.props;
+const s = t[lang];
+const settings = getSettings();
+const home = getPage(lang, 'home');
+const description = Astro.props.description || home.description || home.tagline || '';
+const fullTitle = title ? `${title} – Bülows kvartett` : `Bülows kvartett – ${home.tagline ?? ''}`.replace(/ – $/, '');
+
+const og = await getImage({ src: image(settings.hero_image), width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const ogUrl = new URL(og.src, Astro.site).href;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {
+      current &&
+        languages.map((l) => <link rel="alternate" hreflang={l} href={new URL(routes[l][current], Astro.site).href} />)
+    }
+    {current && <link rel="alternate" hreflang="x-default" href={new URL(routes.sv[current], Astro.site).href} />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Bülows kvartett" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={s.locale.replace('-', '_')} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#2a3927" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">{s.skip}</a>
+    <Header lang={lang} current={current} />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+    <ConsentNotice lang={lang} />
+  </body>
+</html>

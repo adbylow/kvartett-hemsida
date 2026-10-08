@@ -1,0 +1,67 @@
+---
+import { siInstagram, siFacebook, siYoutube, siSpotify, siTiktok, siBandcamp, siBandsintown } from 'simple-icons';
+import type { Settings } from '../lib/content';
+
+interface Props {
+  social: Settings['social'];
+  size?: number;
+}
+const { social, size = 22 } = Astro.props;
+
+const icons = {
+  instagram: siInstagram,
+  facebook: siFacebook,
+  youtube: siYoutube,
+  spotify: siSpotify,
+  tiktok: siTiktok,
+  bandcamp: siBandcamp,
+  bandsintown: siBandsintown,
+};
+const links = (Object.keys(icons) as (keyof typeof icons)[])
+  .filter((k) => social[k])
+  .map((k) => ({ href: social[k]!, icon: icons[k] }));
+---
+
+{
+  links.length > 0 && (
+    <ul class="social">
+      {links.map(({ href, icon }) => (
+        <li>
+          <a href={href} target="_blank" rel="noopener me" aria-label={icon.title}>
+            <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true">
+              <path d={icon.path} fill="currentColor" />
+            </svg>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .social {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  a {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    border: 1.5px solid currentColor;
+    transition:
+      background-color 0.15s,
+      color 0.15s,
+      border-color 0.15s;
+  }
+  a:hover {
+    background: var(--pink);
+    border-color: var(--pink);
+    color: var(--ink);
+  }
+</style>

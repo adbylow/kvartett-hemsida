@@ -1,0 +1,36 @@
+# ─────────────────────────────────────────────────────────────
+#  GENERAL SETTINGS  (shared by the Swedish and English site)
+#  See README.md → "Editing the website" for help.
+# ─────────────────────────────────────────────────────────────
+
+# Contact email. Shown on the site in a way that is hidden from spam robots.
+email: bulowskvartett@gmail.com
+
+# The big photo at the top of the start page.
+# Write the file name of a photo in the content/images folder.
+hero_image: band-forest-landscape.jpg
+
+# Optional: a portrait photo (taller than it is wide) used instead on phones.
+# Leave it out to use hero_image on phones too.
+hero_image_mobile: band-forest-portrait.jpg
+
+# The photo on the "About" page.
+about_image: band-night-landscape.jpg
+
+# Spotify players on the start page (albums, playlists, songs or the artist page).
+# Copy the link from Spotify: "Share" → "Copy link". One link per line, each starting with "- ".
+spotify:
+  - https://open.spotify.com/album/1DJW0GQ2YncNpLlxnkXXiv
+
+# The band's name exactly as it is written on Bandsintown. Tour dates are fetched from there.
+bandsintown_artist: "Bülows Kvartett"
+
+# Links to social media. Leave the quotes empty ("") to hide an icon.
+social:
+  instagram: ""
+  facebook: ""
+  youtube: ""
+  spotify: ""
+  tiktok: ""
+  bandcamp: ""
+  bandsintown: ""

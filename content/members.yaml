@@ -1,0 +1,25 @@
+# ─────────────────────────────────────────────────────────────
+#  BAND MEMBERS  (shown on the "About" page, in this order)
+#  Each member starts with "- name:". Keep the indentation (two spaces).
+#  photo = file name of a photo in content/images
+# ─────────────────────────────────────────────────────────────
+
+- name: "✏️ Name Surname"
+  instrument_sv: Saxofon
+  instrument_en: Saxophone
+  photo: member-saxophone.jpg
+
+- name: "✏️ Name Surname"
+  instrument_sv: Kontrabas
+  instrument_en: Double bass
+  photo: member-bass.jpg
+
+- name: "✏️ Name Surname"
+  instrument_sv: Fiol
+  instrument_en: Violin
+  photo: member-violin.jpg
+
+- name: "✏️ Name Surname"
+  instrument_sv: Trumma
+  instrument_en: Drum
+  photo: member-drum.jpg

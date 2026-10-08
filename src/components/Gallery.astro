@@ -1,0 +1,200 @@
+---
+// Photo grid. Clicking a photo opens a large view (with arrows to browse).
+import { Image, getImage } from 'astro:assets';
+import { image } from '../lib/images';
+import type { Media } from '../lib/content';
+import { t, type Lang } from '../lib/i18n';
+
+interface Props {
+  photos: Media['photos'];
+  lang: Lang;
+}
+const { photos, lang } = Astro.props;
+const s = t[lang];
+
+const items = await Promise.all(
+  photos.map(async (p) => {
+    const src = image(p.image);
+    const large = await getImage({ src, width: Math.min(src.width, 2000), format: 'webp' });
+    const alt = (lang === 'en' && p.description_en) || p.description_sv;
+    return { src, large: large.src, alt, credit: p.credit };
+  }),
+);
+---
+
+<ul class="gallery" data-gallery>
+  {
+    items.map((item, i) => (
+      <li class="gallery__item" style={`--ar: ${(item.src.width / item.src.height).toFixed(3)}`}>
+        <a href={item.large} data-index={i} data-caption={item.alt} data-credit={item.credit ? `${s.photoBy}: ${item.credit}` : ''}>
+          <Image src={item.src} alt={item.alt} widths={[400, 700, 1000, 1400]} sizes="(max-width: 40rem) 100vw, (max-width: 72rem) 60vw, 45rem" loading="lazy" />
+        </a>
+      </li>
+    ))
+  }
+</ul>
+
+<dialog class="lightbox" data-lightbox aria-label={s.photos}>
+  <figure>
+    <img data-lightbox-img alt="" />
+    <figcaption data-lightbox-caption></figcaption>
+  </figure>
+  <button type="button" class="lightbox__btn lightbox__close" data-lightbox-close aria-label={s.gallery.close}>✕</button>
+  <button type="button" class="lightbox__btn lightbox__prev" data-lightbox-prev aria-label={s.gallery.prev}>←</button>
+  <button type="button" class="lightbox__btn lightbox__next" data-lightbox-next aria-label={s.gallery.next}>→</button>
+</dialog>
+
+<style>
+  /* Rows of photos that keep their shape and fill the width ("justified" layout). */
+  .gallery {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .gallery__item {
+    flex: var(--ar) 1 calc(var(--ar) * 14rem);
+    max-width: calc(var(--ar) * 28rem);
+    aspect-ratio: var(--ar);
+    border-radius: var(--radius);
+    background: var(--green-soft);
+  }
+  @media (max-width: 30rem) {
+    .gallery__item {
+      flex-basis: 100%;
+      max-width: none;
+    }
+  }
+  .gallery a {
+    display: block;
+    height: 100%;
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .gallery :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  .gallery a:hover :global(img) {
+    transform: scale(1.03);
+  }
+
+  .lightbox {
+    width: 100vw;
+    height: 100dvh;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: rgb(15 20 14 / 0.96);
+    color: var(--cream);
+  }
+  .lightbox::backdrop {
+    background: transparent;
+  }
+  .lightbox[open] {
+    display: grid;
+    place-items: center;
+  }
+  .lightbox figure {
+    margin: 0;
+    padding: 3.5rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    max-height: 100%;
+  }
+  .lightbox img {
+    max-width: min(100%, 1400px);
+    max-height: calc(100dvh - 8rem);
+    object-fit: contain;
+    border-radius: 6px;
+  }
+  .lightbox figcaption {
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--cream-dim);
+    max-width: 40em;
+  }
+  .lightbox__btn {
+    position: absolute;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    border: 0;
+    background: rgb(255 255 255 / 0.12);
+    color: var(--cream);
+    font-size: 1.35rem;
+    cursor: pointer;
+  }
+  .lightbox__btn:hover {
+    background: var(--pink);
+    color: var(--ink);
+  }
+  .lightbox__close {
+    top: 1rem;
+    right: 1rem;
+  }
+  .lightbox__prev,
+  .lightbox__next {
+    top: 50%;
+    translate: 0 -50%;
+  }
+  .lightbox__prev {
+    left: 1rem;
+  }
+  .lightbox__next {
+    right: 1rem;
+  }
+  @media (max-width: 40rem) {
+    .lightbox__prev,
+    .lightbox__next {
+      top: auto;
+      bottom: 1rem;
+      translate: none;
+    }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((gallery) => {
+    const dialog = gallery.nextElementSibling as HTMLDialogElement;
+    const img = dialog.querySelector<HTMLImageElement>('[data-lightbox-img]')!;
+    const caption = dialog.querySelector<HTMLElement>('[data-lightbox-caption]')!;
+    const links = [...gallery.querySelectorAll<HTMLAnchorElement>('a[data-index]')];
+    let current = 0;
+
+    const show = (i: number) => {
+      current = (i + links.length) % links.length;
+      const a = links[current];
+      img.src = a.href;
+      img.alt = a.dataset.caption ?? '';
+      caption.textContent = [a.dataset.caption, a.dataset.credit].filter(Boolean).join(' — ');
+    };
+
+    links.forEach((a, i) =>
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        show(i);
+        dialog.showModal();
+      }),
+    );
+    dialog.querySelector('[data-lightbox-close]')!.addEventListener('click', () => dialog.close());
+    dialog.querySelector('[data-lightbox-prev]')!.addEventListener('click', () => show(current - 1));
+    dialog.querySelector('[data-lightbox-next]')!.addEventListener('click', () => show(current + 1));
+    dialog.addEventListener('click', (e) => {
+      if (e.target === dialog || (e.target as HTMLElement).tagName === 'FIGURE') dialog.close();
+    });
+    dialog.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') show(current - 1);
+      if (e.key === 'ArrowRight') show(current + 1);
+    });
+    dialog.addEventListener('close', () => links[current]?.focus());
+  });
+</script>

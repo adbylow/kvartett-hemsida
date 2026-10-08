@@ -1,0 +1,115 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import { getPage, getSettings, getMembers } from '../lib/content';
+import { image } from '../lib/images';
+import { t, type Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const s = t[lang];
+const settings = getSettings();
+const page = getPage(lang, 'about');
+const members = getMembers();
+---
+
+<Base lang={lang} current="about" title={page.title ?? s.nav.about}>
+  <div class="container page-head">
+    <h1>{page.title ?? s.nav.about}</h1>
+  </div>
+
+  {
+    settings.about_image && (
+      <div class="container">
+        <Image
+          class="about__img"
+          src={image(settings.about_image)}
+          alt=""
+          widths={[600, 1000, 1500, 2200]}
+          sizes="(max-width: 76rem) 100vw, 72rem"
+          priority
+        />
+      </div>
+    )
+  }
+
+  <section class="section">
+    <div class="container prose" set:html={page.html} />
+  </section>
+
+  {
+    members.length > 0 && (
+      <section class="section section--light">
+        <div class="container">
+          <h2>{s.members}</h2>
+          <ul class="members">
+            {members.map((m) => (
+              <li class="member">
+                {m.photo && (
+                  <Image
+                    src={image(m.photo)}
+                    alt={m.name}
+                    widths={[300, 500, 800]}
+                    sizes="(max-width: 40rem) 50vw, 25vw"
+                    loading="lazy"
+                  />
+                )}
+                <p class="member__name">{m.name}</p>
+                <p class="member__instrument">{lang === 'en' ? m.instrument_en : m.instrument_sv}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+</Base>
+
+<style>
+  .container :global(.about__img) {
+    width: 100%;
+    height: auto;
+    max-height: 75vh;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+  .members {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+    gap: 2rem 1.5rem;
+  }
+  .member :global(img) {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius);
+    margin-bottom: 0.9rem;
+  }
+  .member__name {
+    font-family: var(--font-display);
+    font-stretch: 85%;
+    font-weight: 800;
+    font-size: 1.35rem;
+    line-height: 1.1;
+    margin: 0 0 0.2rem;
+  }
+  .member__instrument {
+    margin: 0;
+    color: var(--green-soft);
+  }
+  @media (max-width: 30rem) {
+    .members {
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem 1rem;
+    }
+    .member__name {
+      font-size: 1.1rem;
+    }
+  }
+</style>

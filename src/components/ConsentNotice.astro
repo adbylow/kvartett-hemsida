@@ -1,0 +1,133 @@
+---
+// Small notice in the corner: Spotify/YouTube players use cookies and only load if allowed.
+// The choice is remembered in the visitor's browser. "Cookie settings" in the footer reopens it.
+import { t, type Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+}
+const s = t[Astro.props.lang];
+---
+
+<div class="consent" role="region" aria-label={s.consent.settings} data-consent hidden>
+  <p>{s.consent.text}</p>
+  <div class="consent__actions">
+    <button type="button" class="button button--small" data-consent-allow>{s.consent.allow}</button>
+    <button type="button" class="button button--ghost button--small" data-consent-deny>{s.consent.deny}</button>
+  </div>
+</div>
+
+<style>
+  .consent {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 60;
+    width: min(22rem, calc(100vw - 2rem));
+    padding: 1rem 1.15rem;
+    background: var(--cream);
+    color: var(--ink);
+    border-radius: var(--radius);
+    box-shadow: 0 12px 40px rgb(0 0 0 / 0.35);
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+  @media (max-width: 30rem) {
+    .consent {
+      right: 0.5rem;
+      bottom: 0.5rem;
+      width: calc(100vw - 1rem);
+      padding: 0.75rem 0.9rem;
+      font-size: 0.85rem;
+    }
+  }
+  .consent[hidden] {
+    display: none;
+  }
+  .consent p {
+    margin: 0 0 0.75rem;
+  }
+  .consent__actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .consent .button--ghost {
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .consent .button--ghost:hover {
+    background: var(--green);
+    color: var(--cream);
+  }
+  .consent :focus-visible {
+    outline-color: var(--green);
+  }
+</style>
+
+<script>
+  const KEY = 'bk-embed-consent';
+  const read = () => {
+    try {
+      return localStorage.getItem(KEY);
+    } catch {
+      return null;
+    }
+  };
+  const write = (value: string) => {
+    try {
+      localStorage.setItem(KEY, value);
+    } catch {
+      /* storage blocked – the choice just isn't remembered */
+    }
+  };
+
+  const notice = document.querySelector<HTMLElement>('[data-consent]')!;
+  const embeds = () => [...document.querySelectorAll<HTMLElement>('[data-embed]:not([data-loaded])')];
+
+  function load(el: HTMLElement, autoplay = false) {
+    if (el.hasAttribute('data-loaded')) return;
+    const frame = document.createElement('iframe');
+    const src = new URL(el.dataset.src!);
+    if (autoplay && src.hostname.includes('youtube')) src.searchParams.set('autoplay', '1');
+    frame.src = src.toString();
+    frame.title = el.dataset.title ?? '';
+    frame.allow = el.dataset.allow ?? '';
+    frame.allowFullscreen = true;
+    frame.loading = 'lazy';
+    frame.referrerPolicy = 'strict-origin-when-cross-origin';
+    el.replaceChildren(frame);
+    el.setAttribute('data-loaded', '');
+  }
+
+  const loadAll = () => embeds().forEach((el) => load(el));
+
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    const button = target.closest<HTMLElement>('[data-embed-load]');
+    if (button) {
+      load(button.closest<HTMLElement>('[data-embed]')!, true);
+      return;
+    }
+    if (target.closest('[data-consent-open]')) {
+      notice.hidden = false;
+      notice.querySelector<HTMLElement>('button')?.focus();
+    }
+  });
+
+  notice.querySelector('[data-consent-allow]')!.addEventListener('click', () => {
+    write('yes');
+    notice.hidden = true;
+    loadAll();
+  });
+  notice.querySelector('[data-consent-deny]')!.addEventListener('click', () => {
+    const wasAllowed = read() === 'yes';
+    write('no');
+    notice.hidden = true;
+    // Remove players that are already loaded.
+    if (wasAllowed && document.querySelector('[data-embed][data-loaded]')) location.reload();
+  });
+
+  const choice = read();
+  if (choice === 'yes') loadAll();
+  else if (choice === null && embeds().length > 0) notice.hidden = false;
+</script>

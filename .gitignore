@@ -1,0 +1,21 @@
+# build output
+dist/
+.astro/
+.netlify/
+
+# dependencies
+node_modules/
+
+# environment variables (never commit secrets)
+.env
+.env.*
+!.env.example
+
+# full-size original photos (kept locally, too big for the repo)
+_originals/
+
+# private notes and scratch files (never uploaded)
+dev/
+
+# OS files
+.DS_Store

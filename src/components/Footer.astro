@@ -1,0 +1,116 @@
+---
+import SocialLinks from './SocialLinks.astro';
+import Email from './Email.astro';
+import { getImage } from 'astro:assets';
+import { image } from '../lib/images';
+import { getSettings } from '../lib/content';
+import { t, routes, navOrder, type Lang } from '../lib/i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const s = t[lang];
+const settings = getSettings();
+const logo = await getImage({ src: image('logo-color.png'), width: 280, format: 'webp' });
+---
+
+<footer class="footer">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <img src={logo.src} width="140" height="140" alt="Bülows kvartett" loading="lazy" />
+    </div>
+    <div class="footer__col">
+      <p class="eyebrow">{s.nav.contact}</p>
+      <Email email={settings.email} lang={lang} />
+      <div class="footer__social">
+        <SocialLinks social={settings.social} />
+      </div>
+    </div>
+    <nav class="footer__col" aria-label={s.menu}>
+      <ul class="footer__nav">
+        <li><a href={routes[lang].home}>{s.nav.home}</a></li>
+        {navOrder.map((key) => <li><a href={routes[lang][key]}>{s.nav[key]}</a></li>)}
+      </ul>
+    </nav>
+  </div>
+  <div class="container footer__bottom">
+    <p>© {new Date().getFullYear()} Bülows kvartett</p>
+    <button type="button" class="footer__cookies" data-consent-open>{s.consent.settings}</button>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--green-deep);
+    padding-top: clamp(3rem, 7vw, 5rem);
+    font-size: 0.95rem;
+  }
+  .footer__inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 2.5rem clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+  .footer__brand img {
+    width: 120px;
+    height: auto;
+    border-radius: 12px;
+  }
+  .footer__social {
+    margin-top: 1.25rem;
+  }
+  .footer__nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.4rem;
+  }
+  .footer__nav a {
+    text-decoration: none;
+  }
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem 2rem;
+    margin-top: 3rem;
+    padding-block: 1.5rem;
+    border-top: 1px solid var(--green-line);
+    color: var(--cream-dim);
+    font-size: 0.85rem;
+  }
+  .footer__bottom p {
+    margin: 0;
+  }
+  .footer__cookies {
+    background: none;
+    border: 0;
+    padding: 0;
+    color: inherit;
+    font: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+  .footer__cookies:hover {
+    color: var(--pink);
+  }
+  @media (max-width: 47.99rem) {
+    .footer__inner {
+      grid-template-columns: 1fr 1fr;
+    }
+    .footer__brand {
+      grid-column: 1 / -1;
+    }
+    .footer__brand img {
+      width: 96px;
+    }
+  }
+  @media (max-width: 30rem) {
+    .footer__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

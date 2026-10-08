@@ -1,0 +1,71 @@
+---
+// Shows the email address without having it in the page's HTML, so spam robots
+// that scan websites for addresses can't pick it up. A small script puts it together.
+import { t, type Lang } from '../lib/i18n';
+
+interface Props {
+  email: string;
+  lang: Lang;
+  large?: boolean;
+}
+const { email, lang, large = false } = Astro.props;
+const s = t[lang];
+const encoded = Buffer.from([...email].reverse().join('')).toString('base64');
+const [user, domain] = email.split('@');
+---
+
+<span class:list={['email', { 'email--large': large }]} data-email={encoded}>
+  <a class="email__link" href="#" data-email-link>{s.showEmail}</a>
+  <noscript><span class="email__fallback">{user} [at] {domain}</span></noscript>
+  <button type="button" class="email__copy button button--ghost button--small" data-email-copy hidden data-copied={s.copied}>
+    {s.copy}
+  </button>
+</span>
+
+<style>
+  .email {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+  }
+  .email__link {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+  .email:has(noscript) .email__link:not([href^='mailto']) {
+    display: none;
+  }
+  .email--large .email__link,
+  .email--large .email__fallback {
+    font-family: var(--font-display);
+    font-stretch: 85%;
+    font-weight: 800;
+    font-size: clamp(1.25rem, 2.6vw, 1.9rem);
+    line-height: 1.1;
+  }
+</style>
+
+<script>
+  function reveal(el: HTMLElement) {
+    const email = [...atob(el.dataset.email!)].reverse().join('');
+    const link = el.querySelector<HTMLAnchorElement>('[data-email-link]')!;
+    link.href = `mailto:${email}`;
+    link.textContent = email;
+    const copy = el.querySelector<HTMLButtonElement>('[data-email-copy]');
+    if (copy && navigator.clipboard) {
+      copy.hidden = false;
+      const label = copy.textContent;
+      copy.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(email);
+          copy.textContent = copy.dataset.copied!;
+          setTimeout(() => (copy.textContent = label), 2000);
+        } catch {
+          /* clipboard not allowed – the address is still visible */
+        }
+      });
+    }
+  }
+  document.querySelectorAll<HTMLElement>('[data-email]').forEach(reveal);
+</script>
