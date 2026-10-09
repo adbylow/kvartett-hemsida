@@ -5,6 +5,7 @@ tagline: Folk/jazz från Malmö
 description: Bülows kvartett spelar folkmusik och jazz. Lyssna, se kommande spelningar och boka bandet.
 ---
 Om musiken
-"Inga choser, inga poser, bara riktigt ärlig, välspelad, svängig och vacker musik." Anders Rosén 22/7 - 2024
+"Inga choser, inga poser, bara riktigt ärlig, välspelad, svängig och vacker musik." Anders Rosén 22/7
+
 “..Högst personligt, stökigt och djärvt, musik för nyfikna och våghalsiga.” - Tidningen spelmannen
 
