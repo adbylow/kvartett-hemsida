@@ -9,3 +9,22 @@ Bülows kvartett är traditionellt låtspel ackompanjerad av ett nyproggigt komp
 ## Vad än som i världen händer
 
 första albumet "Vad än som i världen händer" är 9 spår som sätter tonen för bandets unika ljudbild. Med en blandad repertoar från Sörmland Orsa och Adams egna kompositioner ger sig bandet ut i en värld av rytmlager och ljudlandskap. Albumet fick fina recensioner både i Sverige och utomlands. Ett nytt album planeras för att släppas 2027
+
+Om skivan:
+
+Inga choser, inga poser, bara riktigt ärlig, välspelad, svängig och vacker musik.
+- Anders Rosén 22/7 - 2024
+
+Musikernas levande och förtroliga melodispel balanserar ständigt mellan att samklinga med
+eller kontrastera mot en nyskapande, fri och jazzinfluerad ljudmiljö. - Ronja Grafström för
+Lira 31/5 - 2024 
+
+Energin flödar och att kvartetten uppvisar en kärlek till nyskapande i riktning mot en egen stil är påtagligt. Att plöja nya fåror, det är detta som allt ytterst handlar om.” 
+Bo Bjelvehammart - Opulens
+
+”Flera av melodierna är polskor med bra drag. Det är kul musik och välspelat” 
+Bengt Wittergren
+
+”Fresh, fun and exiting” Jameson Foster - Nordic sound channel
+
+
