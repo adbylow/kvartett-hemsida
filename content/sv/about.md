@@ -19,12 +19,12 @@ Anders Rosén
 eller kontrastera mot en nyskapande, fri och jazzinfluerad ljudmiljö."* Ronja Grafström -
 Lira
 
-Energin flödar och att kvartetten uppvisar en kärlek till nyskapande i riktning mot en egen stil är påtagligt. Att plöja nya fåror, det är detta som allt ytterst handlar om.” 
+*"Energin flödar och att kvartetten uppvisar en kärlek till nyskapande i riktning mot en egen stil är påtagligt. Att plöja nya fåror, det är detta som allt ytterst handlar om.”*
 Bo Bjelvehammart - Opulens
 
-”Flera av melodierna är polskor med bra drag. Det är kul musik och välspelat” 
+*”Flera av melodierna är polskor med bra drag. Det är kul musik och välspelat”*
 Bengt Wittergren - 
 
-”Fresh, fun and exiting” Jameson Foster - Nordic sound channel
+*”Fresh, fun and exiting” Jameson Foster"* - Nordic sound channel
 
 
