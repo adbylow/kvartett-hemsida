@@ -13,17 +13,17 @@ första albumet "Vad än som i världen händer" är 9 spår som sätter tonen f
 Om skivan:
 
 *"Inga choser, inga poser, bara riktigt ärlig, välspelad, svängig och vacker musik."*
-Anders Rosén 22/7 - 2024
+Anders Rosén 
 
 *"Musikernas levande och förtroliga melodispel balanserar ständigt mellan att samklinga med
-eller kontrastera mot en nyskapande, fri och jazzinfluerad ljudmiljö."* - Ronja Grafström för
-Lira 31/5 - 2024 
+eller kontrastera mot en nyskapande, fri och jazzinfluerad ljudmiljö."* Ronja Grafström -
+Lira
 
 Energin flödar och att kvartetten uppvisar en kärlek till nyskapande i riktning mot en egen stil är påtagligt. Att plöja nya fåror, det är detta som allt ytterst handlar om.” 
 Bo Bjelvehammart - Opulens
 
 ”Flera av melodierna är polskor med bra drag. Det är kul musik och välspelat” 
-Bengt Wittergren
+Bengt Wittergren - 
 
 ”Fresh, fun and exiting” Jameson Foster - Nordic sound channel
 
