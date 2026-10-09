@@ -2,4 +2,4 @@
 title: Kontakt
 ---
 
-Vill ni boka Bülows kvartett eller har frågor? Skicka ett mejl så hör vi av oss.
+Vid bokning och andra frågor, tveka inte att kontakta oss
