@@ -27,10 +27,10 @@ bandsintown_artist: "Bülows Kvartett"
 
 # Links to social media. Leave the quotes empty ("") to hide an icon.
 social:
-  instagram: ""
-  facebook: ""
-  youtube: ""
-  spotify: ""
+  instagram: "https://www.instagram.com/bulowskvartett/"
+  facebook: "https://www.facebook.com/Bulowskvartett/"
+  youtube: "https://www.youtube.com/playlist?list=PL8iaORyoVp1U4AkLjDjBRQe6syczITaVy"
+  spotify: "https://open.spotify.com/artist/1RlAidErUeN9fCbc3HlQ2N?si=o5cZQZE4SNKYaak9x44jIw&utm_medium=share&utm_source=linktree&nd=1&dlsi=f8577697d80a4ef6"
   tiktok: ""
   bandcamp: ""
   bandsintown: ""
