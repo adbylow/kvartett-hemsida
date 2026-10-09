@@ -4,22 +4,22 @@
 #  photo = file name of a photo in content/images
 # ─────────────────────────────────────────────────────────────
 
-- name: "✏️ Name Surname"
-  instrument_sv: Saxofon
-  instrument_en: Saxophone
+- name: "Ebba Rubensson"
+  instrument_sv: Saxofon och klarinett
+  instrument_en: Saxophone and Clarinette
   photo: member-saxophone.jpg
 
-- name: "✏️ Name Surname"
+- name: "Joakim Wladis"
   instrument_sv: Kontrabas
   instrument_en: Double bass
   photo: member-bass.jpg
 
-- name: "✏️ Name Surname"
+- name: "Adam Bülow"
   instrument_sv: Fiol
   instrument_en: Violin
   photo: member-violin.jpg
 
-- name: "✏️ Name Surname"
-  instrument_sv: Trumma
-  instrument_en: Drum
+- name: "Jens Linell"
+  instrument_sv: Slagverk
+  instrument_en: Drumkit
   photo: member-drum.jpg
