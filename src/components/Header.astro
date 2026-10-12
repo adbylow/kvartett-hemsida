@@ -247,6 +247,8 @@ const logo = await getImage({ src: image('logo-white.png'), width: 520, format: 
     toggle.setAttribute('aria-expanded', String(open));
     header.toggleAttribute('data-open', open);
     document.body.style.overflow = open ? 'hidden' : '';
+    // Keep keyboard and screen reader users inside the open menu
+    for (const el of document.body.children) if (el !== header) (el as HTMLElement).inert = open;
   };
   toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
   document.addEventListener('keydown', (e) => {

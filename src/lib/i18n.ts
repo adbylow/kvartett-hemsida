@@ -59,6 +59,7 @@ export const t = {
       settings: 'Cookie-inställningar',
     },
     gallery: { prev: 'Föregående bild', next: 'Nästa bild', close: 'Stäng' },
+    video: { pause: 'Pausa videon', play: 'Spela videon' },
     notFound: { title: 'Sidan finns inte', text: 'Sidan du letar efter finns inte. Den kan ha flyttats.', back: 'Till startsidan' },
   },
   en: {
@@ -106,6 +107,7 @@ export const t = {
       settings: 'Cookie settings',
     },
     gallery: { prev: 'Previous photo', next: 'Next photo', close: 'Close' },
+    video: { pause: 'Pause video', play: 'Play video' },
     notFound: { title: 'Page not found', text: 'The page you are looking for does not exist. It may have moved.', back: 'Go to the start page' },
   },
 } as const;
