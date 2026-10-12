@@ -15,7 +15,12 @@ const logo = await getImage({ src: image('logo-white.png'), width: 520, format: 
 
 <header class="header" data-header>
   <div class="header__inner container">
-    <a class="header__logo" href={routes[lang].home} aria-label={`Bülows kvartett – ${s.nav.home}`}>
+    <a
+      class="header__logo"
+      href={routes[lang].home}
+      aria-label={`Bülows kvartett – ${s.nav.home}`}
+      style={`--logo: url(${logo.src})`}
+    >
       <img src={logo.src} width={logo.attributes.width} height={logo.attributes.height} alt="" />
     </a>
 
@@ -61,12 +66,21 @@ const logo = await getImage({ src: image('logo-white.png'), width: 520, format: 
     gap: 1rem;
     height: var(--header-h);
   }
+  /* The logo image is used as a mask so it can take the text colour */
+  .header__logo {
+    display: block;
+    background-color: var(--cream);
+    -webkit-mask: var(--logo) center / contain no-repeat;
+    mask: var(--logo) center / contain no-repeat;
+    transition: background-color 0.15s;
+  }
+  .header__logo:hover {
+    background-color: var(--pink);
+  }
   .header__logo img {
     height: clamp(22px, 3.2vw, 30px);
     width: auto;
-  }
-  .header__logo:hover img {
-    opacity: 0.85;
+    opacity: 0;
   }
 
   .nav {
