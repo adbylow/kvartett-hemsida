@@ -2,7 +2,7 @@
 title: Om bandet
 ---
 
-Bülows kvartett är traditionellt låtspel ackompanjerat av ett nyproggigt kompband med mycket rum för improvisation. Spräckig tenorsaxofon och jazzvals samsas med fiolens dubbelsträngar, trummor och bas i tätt samspel. Låtmaterialet rör sig kring riksspelman Adam Bülows repertoar med låtar efter Gössa-Anders, musik från Sörmland och egna kompositioner, spoken word på blankvers och en och annan visa.
+Bülows kvartett är traditionellt låtspel ackompanjerat av ett nyproggigt kompband med mycket rum för improvisation. Spräckig tenorsaxofon och jazzvals samsas med fiolens dubbelsträngar, trummor och bas i tätt samspel. Låtmaterialet rör sig kring riksspelman Adam Bülows repertoar med låtar efter Gössa Anders, musik från Sörmland och egna kompositioner, spoken word på blankvers och en och annan visa.
 
 2024 släpptes bandets debutalbum på Malmö Folk inför en fullsatt lokal. Bandet har sedan dess spelat på flera folkmusikscener runt om i landet, som Stallet, Falufolk, Felan och Musik over Præstø Fjord, samt i radio.
 
