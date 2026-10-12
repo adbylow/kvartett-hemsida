@@ -11,12 +11,12 @@ export const routes: Record<Lang, Record<RouteKey, string>> = {
   en: { home: '/en/', about: '/en/about/', tour: '/en/tour/', media: '/en/media/', contact: '/en/contact/' },
 };
 
-export const navOrder: RouteKey[] = ['about', 'tour', 'media', 'contact'];
+export const navOrder: RouteKey[] = ['home', 'about', 'tour', 'media', 'contact'];
 
 export const t = {
   sv: {
     locale: 'sv-SE',
-    nav: { home: 'Start', about: 'Om oss', tour: 'Spelningar', media: 'Media', contact: 'Kontakt' },
+    nav: { home: 'Hem', about: 'Om oss', tour: 'Spelningar', media: 'Media', contact: 'Kontakt' },
     menu: 'Meny',
     close: 'Stäng',
     otherLang: 'English',
@@ -26,7 +26,7 @@ export const t = {
     readMore: 'Läs mer om bandet',
     nextGigs: 'Kommande spelningar',
     allGigs: 'Alla spelningar',
-    upcoming: 'Kommande',
+    upcoming: 'Kommande spelningar',
     past: 'Tidigare spelningar',
     noGigs: 'Inga inbokade spelningar just nu – håll utkik!',
     gigsError: 'Spelningarna kunde inte hämtas just nu.',
@@ -72,7 +72,7 @@ export const t = {
     readMore: 'Read more about the band',
     nextGigs: 'Upcoming shows',
     allGigs: 'All shows',
-    upcoming: 'Upcoming',
+    upcoming: 'Upcoming shows',
     past: 'Past shows',
     noGigs: 'No shows booked right now – stay tuned!',
     gigsError: 'Tour dates could not be loaded right now.',

@@ -41,9 +41,9 @@ const jsonLd = gigs.upcoming.map((g) => ({
     <div class="lead prose" set:html={page.html} />
   </div>
 
-  <section class="section tour">
+  <section class="section tour" aria-labelledby="upcoming-heading">
     <div class="container">
-      <h2 class="visually-hidden">{s.upcoming}</h2>
+      <h2 id="upcoming-heading">{s.upcoming}</h2>
       {
         gigs.upcoming.length > 0 ? (
           <GigList gigs={gigs.upcoming} lang={lang} />
@@ -61,17 +61,19 @@ const jsonLd = gigs.upcoming.map((g) => ({
           </p>
         )
       }
-
-      {
-        gigs.past.length > 0 && (
-          <details class="past">
-            <summary>{s.past}</summary>
-            <GigList gigs={gigs.past} lang={lang} past />
-          </details>
-        )
-      }
     </div>
   </section>
+
+  {
+    gigs.past.length > 0 && (
+      <section class="section past" aria-labelledby="past-heading">
+        <div class="container">
+          <h2 id="past-heading">{s.past}</h2>
+          <GigList gigs={gigs.past} lang={lang} past />
+        </div>
+      </section>
+    )
+  }
 </Base>
 
 <style>
@@ -88,18 +90,7 @@ const jsonLd = gigs.upcoming.map((g) => ({
     margin-top: 2rem;
   }
   .past {
-    margin-top: 4rem;
-  }
-  .past summary {
-    font-family: var(--font-display);
-    font-stretch: 85%;
-    font-weight: 800;
-    font-size: 1.5rem;
-    cursor: pointer;
-    margin-bottom: 1rem;
-  }
-  .past summary:hover {
-    color: var(--pink);
+    padding-top: 0;
   }
   .past :global(.gigs) {
     color: var(--cream-dim);

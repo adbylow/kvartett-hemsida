@@ -79,21 +79,19 @@ const logo = await getImage({ src: image('logo-white.png'), width: 1600, format:
     )
   }
 
-  <section class="section section--deep">
-    <div class="container">
-      <div class="section-head">
-        <h2>{s.nextGigs}</h2>
-        <a class="arrow-link" href={routes[lang].tour}>{s.allGigs}</a>
-      </div>
-      {
-        gigs.upcoming.length > 0 ? (
+  {
+    gigs.upcoming.length > 0 && (
+      <section class="section section--deep">
+        <div class="container">
+          <div class="section-head">
+            <h2>{s.nextGigs}</h2>
+            <a class="arrow-link" href={routes[lang].tour}>{s.allGigs}</a>
+          </div>
           <GigList gigs={gigs.upcoming.slice(0, 3)} lang={lang} />
-        ) : (
-          <p class="no-gigs">{gigs.status === 'error' ? s.gigsError : s.noGigs}</p>
-        )
-      }
-    </div>
-  </section>
+        </div>
+      </section>
+    )
+  }
 
   {
     strip.length > 0 && (
@@ -218,11 +216,6 @@ const logo = await getImage({ src: image('logo-white.png'), width: 1600, format:
     .players--many {
       grid-template-columns: 1fr 1fr;
     }
-  }
-
-  .no-gigs {
-    font-size: 1.15rem;
-    color: var(--cream-dim);
   }
 
   .strip {
