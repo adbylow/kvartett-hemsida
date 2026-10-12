@@ -31,7 +31,7 @@ You **don't need to know any programming** to update the site. All text, photos 
 | Photos on the "Media" page                     | `content/media.yaml`                             |
 | YouTube videos                                 | `content/media.yaml`                             |
 | Spotify players on the start page              | `content/settings.yaml`                          |
-| Email address                                  | `content/settings.yaml`                          |
+| Email address and phone number                 | `content/settings.yaml`                          |
 | Instagram, Facebook and other social media     | `content/settings.yaml`                          |
 | The big photo at the top of the start page     | `content/settings.yaml` (`hero_image`)           |
 | The photo on the "About" page                  | `content/settings.yaml` (`about_image`)          |
@@ -116,7 +116,7 @@ Here is the introduction text. It can be several sentences long.
 
 Open `content/sv/about.md` and `content/en/about.md`. Write your text below the second `---`. See [5.2](#52-text-files-md) for how to make headings, **bold text** and links.
 
-### 4.3 Change email, Spotify or social media links
+### 4.3 Change email, phone, Spotify or social media links
 
 Open `content/settings.yaml`.
 
@@ -125,6 +125,11 @@ Open `content/settings.yaml`.
 email: bulowskvartett@gmail.com
 ```
 The address is shown on the site in a way that spam robots can't read.
+
+**Phone:** shown under the email on the contact page and in the footer, hidden from spam robots the same way as the email. Leave the quotes empty to hide it.
+```yaml
+phone: "070-123 45 67"
+```
 
 **Social media:** paste the full link (starting with `https://`) between the quotes. Leave the quotes empty to hide an icon.
 ```yaml
@@ -393,6 +398,6 @@ dev/                     private notes and scratch files (git-ignored)
 ### Notes
 
 - **Privacy:** Spotify/YouTube iframes are only inserted after the visitor clicks "Show player" or allows cookies in the corner notice (stored in `localStorage` under `bk-embed-consent`; "Cookie settings" in the footer reopens it). Cover images and titles are fetched at build time and served from this site, so no third-party request is made before consent. YouTube uses `youtube-nocookie.com`.
-- **Email** is rendered base64-encoded and reversed and assembled by JavaScript, so it doesn't appear in the HTML.
+- **Email and phone** are rendered base64-encoded and reversed and assembled by JavaScript, so they don't appear in the HTML.
 - **Validation:** content files are validated with strict zod schemas. Unknown keys, missing images and invalid links fail the build with a message aimed at non-technical editors.
 - **UI strings** (menu labels, buttons) live in `src/lib/i18n.ts`, not in `content/`.

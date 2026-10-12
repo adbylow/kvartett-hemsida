@@ -6,6 +6,9 @@
 # Contact email. Shown on the site in a way that is hidden from spam robots.
 email: bulowskvartett@gmail.com
 
+# Contact phone number, e.g. 070-123 45 67. Leave the quotes empty ("") to hide it.
+phone: "+46 76-040 95 23"
+
 # The big photo at the top of the start page.
 # Write the file name of a photo in the content/images folder.
 hero_image: band-forest-landscape.jpg

@@ -1,0 +1,36 @@
+---
+// Shows the phone number without having it in the page's HTML, the same way as Email.astro,
+// so robots that scan websites for numbers can't pick it up. A small script puts it together.
+// Without JavaScript nothing is shown – the email address is still there.
+interface Props {
+  phone: string;
+  large?: boolean;
+}
+const { phone, large = false } = Astro.props;
+const encoded = Buffer.from([...phone].reverse().join('')).toString('base64');
+---
+
+<a class:list={['phone', { 'phone--large': large }]} data-phone={encoded} hidden></a>
+
+<style>
+  .phone {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  .phone--large {
+    font-family: var(--font-display);
+    font-stretch: 85%;
+    font-weight: 800;
+    font-size: clamp(1.25rem, 2.6vw, 1.9rem);
+    line-height: 1.1;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLAnchorElement>('[data-phone]').forEach((link) => {
+    const phone = [...atob(link.dataset.phone!)].reverse().join('');
+    link.href = `tel:${phone.replace(/(?!^\+)\D/g, '')}`;
+    link.textContent = phone;
+    link.hidden = false;
+  });
+</script>

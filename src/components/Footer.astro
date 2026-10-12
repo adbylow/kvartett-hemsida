@@ -1,6 +1,7 @@
 ---
 import SocialLinks from './SocialLinks.astro';
 import Email from './Email.astro';
+import Phone from './Phone.astro';
 import { getImage } from 'astro:assets';
 import { image } from '../lib/images';
 import { getSettings } from '../lib/content';
@@ -23,6 +24,7 @@ const logo = await getImage({ src: image('logo-color.png'), width: 280, format: 
     <div class="footer__col">
       <p class="eyebrow">{s.nav.contact}</p>
       <Email email={settings.email} lang={lang} />
+      {settings.phone && <p class="footer__phone"><Phone phone={settings.phone} /></p>}
       <div class="footer__social">
         <SocialLinks social={settings.social} />
       </div>
@@ -56,6 +58,9 @@ const logo = await getImage({ src: image('logo-color.png'), width: 280, format: 
     width: 120px;
     height: auto;
     border-radius: 12px;
+  }
+  .footer__phone {
+    margin: 0.5rem 0 0;
   }
   .footer__social {
     margin-top: 1.25rem;

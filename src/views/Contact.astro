@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Email from '../components/Email.astro';
+import Phone from '../components/Phone.astro';
 import SocialLinks from '../components/SocialLinks.astro';
 import { getPage, getSettings } from '../lib/content';
 import { t, type Lang } from '../lib/i18n';
@@ -27,9 +28,17 @@ const hasSocial = Object.values(settings.social).some(Boolean);
         <p class="eyebrow">{s.emailUs}</p>
         <Email email={settings.email} lang={lang} large />
         {
+          settings.phone && (
+            <>
+              <p class="eyebrow contact__more contact__call">{s.callUs}</p>
+              <Phone phone={settings.phone} large />
+            </>
+          )
+        }
+        {
           hasSocial && (
             <>
-              <p class="eyebrow contact__follow">{s.followUs}</p>
+              <p class="eyebrow contact__more">{s.followUs}</p>
               <SocialLinks social={settings.social} />
             </>
           )
@@ -74,7 +83,11 @@ const hasSocial = Object.values(settings.social).some(Boolean);
     border-color: var(--green);
     color: var(--cream);
   }
-  .contact__follow {
+  /* The phone number needs JavaScript to show, so hide its heading without it */
+  :global(html:not(.js)) .contact__call {
+    display: none;
+  }
+  .contact__more {
     margin-top: 2rem;
   }
   @media (max-width: 47.99rem) {
