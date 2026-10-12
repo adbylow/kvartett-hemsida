@@ -7,6 +7,7 @@ import { getPage, getSettings, getMedia } from '../lib/content';
 import { getGigs } from '../lib/bandsintown';
 import { image } from '../lib/images';
 import { t, routes, type Lang } from '../lib/i18n';
+import bannerVideo from '/content/videos/live-silent-slow.mp4?url';
 
 interface Props {
   lang: Lang;
@@ -63,6 +64,18 @@ const logo = await getImage({ src: image('logo-white.png'), width: 1600, format:
       <a class="arrow-link" href={routes[lang].about}>{s.readMore}</a>
     </div>
   </section>
+
+  <div class="banner" aria-hidden="true">
+    <video
+      class="banner__video"
+      src={bannerVideo}
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      data-banner-video></video>
+  </div>
 
   {
     settings.spotify.length > 0 && (
@@ -208,6 +221,26 @@ const logo = await getImage({ src: image('logo-white.png'), width: 1600, format:
     margin-bottom: 0;
   }
 
+  /* Silent looping video between the intro and the Spotify players */
+  .banner {
+    position: relative;
+    height: clamp(12rem, 32vw, 30rem);
+    overflow: hidden;
+    background: var(--green-deep);
+  }
+  .banner__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 60%;
+  }
+  .banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgb(42 57 39 / 0.30);
+  }
+
   .players {
     display: grid;
     gap: 1.25rem;
@@ -252,3 +285,12 @@ const logo = await getImage({ src: image('logo-white.png'), width: 1600, format:
     }
   }
 </style>
+
+<script>
+  // Respect visitors who have asked for less motion
+  const video = document.querySelector<HTMLVideoElement>('[data-banner-video]');
+  if (video && matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    video.removeAttribute('autoplay');
+    video.pause();
+  }
+</script>
