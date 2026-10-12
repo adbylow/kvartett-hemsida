@@ -2,4 +2,4 @@
 title: Spelningar
 ---
 
-Kom och lyssna! Spelningarna hämtas automatiskt från Bandsintown.
+kommande och redan genomförda konserter med Bülows kvartet
