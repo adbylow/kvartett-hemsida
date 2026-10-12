@@ -2,16 +2,14 @@
 title: About the band
 ---
 
-**Bülows kvartett** is known for creating a personal and unique experience with their combination of old tunes from Orsa in Dalarna and a moderna jazz influenced sound. They have dived deep into the phrases of the old fiddle player Gössa Anders playing and added baselines, Rhythmical structures, resonances and room for improvisation in the interplay between the four instruments. With base, drums, fiddle, clarinet and saxophone the sound can go from very big and noisy to minimalistic and detailed and the instruments are used to its full extent. A concert with Bülows Kvartett is like listening to a story where you want to hear every word to see what is gonna happen next. 
+**Bülows kvartett** is known for creating a personal and unique experience with their combination of old tunes from Orsa in Dalarna and a modern, jazz-influenced sound. They have dived deep into the phrasing of the old fiddler Gössa Anders and added bass lines, rhythmic structures, resonances and room for improvisation in the interplay between the four instruments. With bass, drums, fiddle, clarinet and saxophone, the sound can go from very big and noisy to minimalistic and detailed, and the instruments are used to their full extent. A concert with Bülows kvartett is like listening to a story where you want to hear every word to find out what happens next.
 
-The debut album was released 2024 at Malmö Folk in their hometown and since they have played many folk stages in the are like:
-
-
+The debut album was released in 2024 at Malmö Folk in their hometown, and since then they have played on many folk music stages, such as Stallet, Falufolk, Felan and Musik over Præstø Fjord, as well as on the radio.
 
 ## Vad än som i världen händer
-Vad än som i världen händer is the name of the quartets debutalbum and is translated to "Whatever happens in the world". Its 9 tracks that sets the sound for the quartet. its a mix of old traditional tunes from Orsa and Sörmland but also some new compositions by Adam Bülow. 
+*Vad än som i världen händer* ("Whatever happens in the world") is the name of the quartet's debut album. Its nine tracks set the sound for the quartet: a mix of old traditional tunes from Orsa and Sörmland, as well as some new compositions by Adam Bülow.
 
-Rewiews of the album
+Reviews of the album
 
 *"The musicians' vibrant and intimate melodic interplay constantly balances between blending with and contrasting against an innovative, free and jazz-influenced soundscape."*
 
