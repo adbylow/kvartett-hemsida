@@ -34,7 +34,7 @@ const jsonLd = gigs.upcoming.map((g) => ({
 ---
 
 <Base lang={lang} current="tour" title={page.title ?? s.nav.tour}>
-  {jsonLd.length > 0 && <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  {jsonLd.length > 0 && <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />}
 
   <div class="container page-head">
     <h1>{page.title ?? s.nav.tour}</h1>

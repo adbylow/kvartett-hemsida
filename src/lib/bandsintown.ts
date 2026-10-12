@@ -34,6 +34,15 @@ interface ApiEvent {
 const API = 'https://rest.bandsintown.com/artists';
 const PAST_LIMIT = 10;
 
+/** Only allow https links, so a strange value from the API can't become a script link. */
+function safeUrl(url: string | undefined): string | undefined {
+  try {
+    return url && new URL(url).protocol === 'https:' ? url : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 function toGig(e: ApiEvent): Gig {
   const tickets = e.offers?.find((o) => o.type?.toLowerCase() === 'tickets');
   return {
@@ -44,8 +53,8 @@ function toGig(e: ApiEvent): Gig {
     city: e.venue?.city ?? '',
     region: e.venue?.region || undefined,
     country: e.venue?.country ?? '',
-    url: e.url,
-    ticketUrl: tickets?.url,
+    url: safeUrl(e.url) ?? 'https://www.bandsintown.com/',
+    ticketUrl: safeUrl(tickets?.url),
     soldOut: tickets?.status?.toLowerCase() === 'sold out',
   };
 }

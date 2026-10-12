@@ -101,6 +101,7 @@ const imageName = z
   });
 
 const link = z.url({
+  protocol: /^https$/,
   error: "This is not a valid web link. It should start with https://",
 });
 const optionalLink = z
