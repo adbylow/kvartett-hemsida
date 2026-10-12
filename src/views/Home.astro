@@ -3,7 +3,7 @@ import { Image, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Embed from '../components/Embed.astro';
 import GigList from '../components/GigList.astro';
-import { getPage, getSettings, getMedia } from '../lib/content';
+import { getPage, getSettings, getMedia, getMembers } from '../lib/content';
 import { getGigs } from '../lib/bandsintown';
 import { image } from '../lib/images';
 import { t, routes, type Lang } from '../lib/i18n';
@@ -26,9 +26,28 @@ const heroMobile = settings.hero_image_mobile
   ? await getImage({ src: image(settings.hero_image_mobile), widths: [480, 720, 960, 1280], format: 'webp' })
   : undefined;
 const logo = await getImage({ src: image('logo-white.png'), width: 1600, format: 'webp' });
+
+// Tells Google who the band is, and which profiles elsewhere belong to it.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'MusicGroup',
+  name: 'Bülows kvartett',
+  alternateName: 'Bulows kvartett',
+  url: new URL(routes[lang].home, Astro.site).href,
+  description: page.description,
+  genre: lang === 'en' ? ['Folk music', 'Jazz'] : ['Folkmusik', 'Jazz'],
+  foundingLocation: { '@type': 'Place', name: 'Malmö' },
+  member: getMembers().map((m) => ({
+    '@type': 'OrganizationRole',
+    member: { '@type': 'Person', name: m.name },
+    roleName: lang === 'en' ? m.instrument_en : m.instrument_sv,
+  })),
+  sameAs: Object.values(settings.social).filter(Boolean),
+};
 ---
 
 <Base lang={lang} current="home" description={page.description}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')} />
   <section class="hero">
     <picture class="hero__media">
       {

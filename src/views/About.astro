@@ -15,7 +15,7 @@ const page = getPage(lang, 'about');
 const members = getMembers();
 ---
 
-<Base lang={lang} current="about" title={page.title ?? s.nav.about}>
+<Base lang={lang} current="about" title={page.title ?? s.nav.about} description={page.description}>
   <div class="container page-head">
     <h1>{page.title ?? s.nav.about}</h1>
   </div>

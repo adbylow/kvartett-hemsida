@@ -116,6 +116,8 @@ Here is the introduction text. It can be several sentences long.
 
 Open `content/sv/about.md` and `content/en/about.md`. Write your text below the second `---`. See [5.2](#52-text-files-md) for how to make headings, **bold text** and links.
 
+Every page (about, tour, media, contact) also has a **`description`** at the top, like the start page: the text Google shows for that page. Keep it to 1–2 sentences, and make it different for each page.
+
 ### 4.3 Change email, phone, Spotify or social media links
 
 Open `content/settings.yaml`.

@@ -16,7 +16,7 @@ const page = getPage(lang, 'contact');
 const hasSocial = Object.values(settings.social).some(Boolean);
 ---
 
-<Base lang={lang} current="contact" title={page.title ?? s.nav.contact}>
+<Base lang={lang} current="contact" title={page.title ?? s.nav.contact} description={page.description}>
   <div class="container page-head">
     <h1>{page.title ?? s.nav.contact}</h1>
   </div>

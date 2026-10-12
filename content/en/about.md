@@ -1,5 +1,7 @@
 ---
 title: About the band
+# Text shown in Google and when the page is shared on social media (1–2 sentences)
+description: Bülows kvartett from Malmö, Sweden, play traditional tunes from Orsa and Sörmland with a modern jazz sound. Meet the band and their debut album Vad än som i världen händer.
 ---
 
 **Bülows kvartett** is known for creating a personal and unique experience with their combination of old tunes from Orsa in Dalarna and a modern, jazz-influenced sound. They have dived deep into the phrasing of the old fiddler Gössa Anders and added bass lines, rhythmic structures, resonances and room for improvisation in the interplay between the four instruments. With bass, drums, fiddle, clarinet and saxophone, the sound can go from very big and noisy to minimalistic and detailed, and the instruments are used to their full extent. A concert with Bülows kvartett is like listening to a story where you want to hear every word to find out what happens next.

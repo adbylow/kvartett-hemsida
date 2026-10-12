@@ -1,5 +1,7 @@
 ---
 title: Om bandet
+# Text shown in Google and when the page is shared on social media (1–2 sentences)
+description: Bülows kvartett från Malmö spelar traditionella låtar från Orsa och Sörmland med jazzens frihet. Möt bandet och debutalbumet Vad än som i världen händer.
 ---
 
 Bülows kvartett är traditionellt låtspel ackompanjerat av ett nyproggigt kompband med mycket rum för improvisation. Spräckig tenorsaxofon och jazzvals samsas med fiolens dubbelsträngar, trummor och bas i tätt samspel. Låtmaterialet rör sig kring riksspelman Adam Bülows repertoar med låtar efter Gössa Anders, musik från Sörmland och egna kompositioner, spoken word på blankvers och en och annan visa.
