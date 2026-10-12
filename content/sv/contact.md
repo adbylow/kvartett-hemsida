@@ -2,4 +2,4 @@
 title: Kontakt
 ---
 
-Vid bokning och andra frågor, tveka inte att kontakta oss
+Vid bokning och andra frågor, ring eller mejla oss
