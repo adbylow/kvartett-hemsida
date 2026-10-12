@@ -23,7 +23,7 @@ Lira
 Bo Bjelvehammart - Opulens
 
 *”Flera av melodierna är polskor med bra drag. Det är kul musik och välspelat”*
-Bengt Wittergren - 
+Bengt Wittergren - Runtenom
 
 *”Fresh, fun and exiting” Jameson Foster"* - Nordic sound channel
 
