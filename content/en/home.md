@@ -5,4 +5,4 @@ tagline: Folk/Jazz from Malmö
 description: Bülows kvartett plays folk music and jazz with Fiddle, clarinette, saxofone,base, drums and sometimes singing.
 ---
 
-Bülows kvartett is the folk quartett from Malmö that combines Traditional material with a modern jazz sound with upright base, drums, violin and saxophone
+Bülows kvartett is the folk quartett from Malmö that combines traditional material with a modern jazz sound with upright base, drums, violin and saxophone
