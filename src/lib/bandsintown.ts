@@ -32,7 +32,7 @@ interface ApiEvent {
 }
 
 const API = 'https://rest.bandsintown.com/artists';
-const PAST_LIMIT = 10;
+const PAST_LIMIT = 200;
 
 /** Only allow https links, so a strange value from the API can't become a script link. */
 function safeUrl(url: string | undefined): string | undefined {
@@ -59,7 +59,8 @@ function toGig(e: ApiEvent): Gig {
   };
 }
 
-async function fetchEvents(artist: string, appId: string, date: 'upcoming' | 'past'): Promise<Gig[]> {
+/** "upcoming", or a date range like "2000-01-01,2026-10-12". */
+async function fetchEvents(artist: string, appId: string, date: string): Promise<Gig[]> {
   // Bandsintown needs some characters in artist names double-encoded.
   const name = encodeURIComponent(artist).replace(/%2F/g, '%252F').replace(/%3F/g, '%253F').replace(/\*/g, '%252A');
   const res = await fetch(`${API}/${name}/events?app_id=${encodeURIComponent(appId)}&date=${date}`, {
@@ -89,10 +90,15 @@ export function getGigs(artist: string | undefined): Promise<Gigs> {
 
   const value = (async (): Promise<Gigs> => {
     try {
-      const [upcoming, past] = await Promise.all([
+      // date=past only covers about the last year, so ask for everything up to yesterday instead.
+      const yesterday = new Date(Date.now() - 86_400_000).toISOString().slice(0, 10);
+      const [upcoming, allPast] = await Promise.all([
         fetchEvents(artist, appId, 'upcoming'),
-        fetchEvents(artist, appId, 'past'),
+        fetchEvents(artist, appId, `2000-01-01,${yesterday}`),
       ]);
+      // Skip anything that is also in the upcoming list (e.g. a show happening today).
+      const upcomingIds = new Set(upcoming.map((g) => g.id));
+      const past = allPast.filter((g) => !upcomingIds.has(g.id));
       upcoming.sort((a, b) => a.datetime.localeCompare(b.datetime));
       past.sort((a, b) => b.datetime.localeCompare(a.datetime));
       return { upcoming, past: past.slice(0, PAST_LIMIT), status: 'ok' };

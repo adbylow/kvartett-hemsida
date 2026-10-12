@@ -26,6 +26,7 @@ spotify:
   - https://open.spotify.com/album/1DJW0GQ2YncNpLlxnkXXiv
 
 # The band's name exactly as it is written on Bandsintown. Tour dates are fetched from there.
+# Check that spelling matches the Bandsin town artist name. Has no ü as of Oct 2026
 bandsintown_artist: "Bulows Kvartett"
 
 # Links to social media. Leave the quotes empty ("") to hide an icon.
