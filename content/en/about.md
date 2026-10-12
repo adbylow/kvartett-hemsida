@@ -23,4 +23,4 @@ Bo Bjelvehammar, Opulens
 
 "Several of the tunes are polskas with great drive. It's enjoyable music, played with skill and conviction."
 
-Bengt Wittergren
+Bengt Wittergren, Runtenom
