@@ -26,7 +26,7 @@ spotify:
   - https://open.spotify.com/album/1DJW0GQ2YncNpLlxnkXXiv
 
 # The band's name exactly as it is written on Bandsintown. Tour dates are fetched from there.
-bandsintown_artist: "Bülows Kvartett"
+bandsintown_artist: "Bulows Kvartett"
 
 # Links to social media. Leave the quotes empty ("") to hide an icon.
 social:
