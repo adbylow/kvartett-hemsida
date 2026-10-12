@@ -13,14 +13,14 @@ Vad än som i världen händer is the name of the quartets debutalbum and is tra
 
 Rewiews of the album
 
-"The musicians' vibrant and intimate melodic interplay constantly balances between blending with and contrasting against an innovative, free and jazz-influenced soundscape."
+*"The musicians' vibrant and intimate melodic interplay constantly balances between blending with and contrasting against an innovative, free and jazz-influenced soundscape."*
 
 Ronja Grafström, Lira
 
-"The energy flows freely, and the quartet's passion for innovation and developing a style of its own is unmistakable. Breaking new ground is, ultimately, what it's all about."
+*"The energy flows freely, and the quartet's passion for innovation and developing a style of its own is unmistakable. Breaking new ground is, ultimately, what it's all about."*
 
 Bo Bjelvehammar, Opulens
 
-"Several of the tunes are polskas with great drive. It's enjoyable music, played with skill and conviction."
+*"Several of the tunes are polskas with great drive. It's enjoyable music, played with skill and conviction."*
 
 Bengt Wittergren, Runtenom
