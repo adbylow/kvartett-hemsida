@@ -5,8 +5,10 @@ import type { Settings } from '../lib/content';
 interface Props {
   social: Settings['social'];
   size?: number;
+  /** Icons only, without the ring around them */
+  plain?: boolean;
 }
-const { social, size = 22 } = Astro.props;
+const { social, size = 22, plain = false } = Astro.props;
 
 const icons = {
   instagram: siInstagram,
@@ -24,7 +26,7 @@ const links = (Object.keys(icons) as (keyof typeof icons)[])
 
 {
   links.length > 0 && (
-    <ul class="social">
+    <ul class:list={['social', { 'social--plain': plain }]}>
       {links.map(({ href, icon }) => (
         <li>
           <a href={href} target="_blank" rel="noopener me" aria-label={icon.title}>
@@ -63,5 +65,17 @@ const links = (Object.keys(icons) as (keyof typeof icons)[])
     background: var(--pink);
     border-color: var(--pink);
     color: var(--ink);
+  }
+  .social--plain {
+    gap: 0;
+  }
+  .social--plain a {
+    width: 2.25rem;
+    height: 2.25rem;
+    border: 0;
+  }
+  .social--plain a:hover {
+    background: none;
+    color: var(--pink);
   }
 </style>

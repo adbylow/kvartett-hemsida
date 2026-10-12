@@ -1,6 +1,8 @@
 ---
 import { getImage } from 'astro:assets';
 import { image } from '../lib/images';
+import { getSettings } from '../lib/content';
+import SocialLinks from './SocialLinks.astro';
 import { t, routes, navOrder, otherLang, type Lang, type RouteKey } from '../lib/i18n';
 
 interface Props {
@@ -10,6 +12,7 @@ interface Props {
 const { lang, current } = Astro.props;
 const s = t[lang];
 const other = otherLang(lang);
+const settings = getSettings();
 const logo = await getImage({ src: image('logo-white.png'), width: 520, format: 'webp' });
 ---
 
@@ -41,6 +44,7 @@ const logo = await getImage({ src: image('logo-white.png'), width: 520, format: 
           ))
         }
       </ul>
+      <SocialLinks social={settings.social} size={18} plain />
       <a class="nav__lang" href={routes[other][current ?? 'home']} hreflang={other} lang={other}>
         <span aria-hidden="true">{s.otherLangShort}</span>
         <span class="visually-hidden">{s.otherLang}</span>
